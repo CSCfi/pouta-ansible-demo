@@ -39,7 +39,7 @@
       os_server:
         name: pouta-demo
         image: CentOS-7.0
-        flavor: tiny
+        flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
 
@@ -48,7 +48,7 @@
       os_server:
         name: pouta-demo
         image: CentOS-7.0
-        flavor: tiny
+        flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
       until: (result.openstack is defined) and (result.openstack.networks.values()[0] | length > 1)
