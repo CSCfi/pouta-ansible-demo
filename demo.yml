@@ -38,7 +38,7 @@
       register: result
       os_server:
         name: pouta-demo
-        image: CentOS-7.0
+        image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
