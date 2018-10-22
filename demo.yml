@@ -47,7 +47,7 @@
       register: result
       os_server:
         name: pouta-demo
-        image: CentOS-7.0
+        image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
@@ -61,7 +61,7 @@
       add_host: name={{ floating_ip }} groups=new
     - name: clear ssh known_hosts
       known_hosts: name={{ floating_ip }} state=absent
-      when: result | changed
+      when: result is changed
     - name: Wait for instance to be ready
       wait_for: host={{ floating_ip }} port=22 search_regex=OpenSSH delay=60
 
@@ -87,7 +87,7 @@
      yum: name=firewalld state=present
 
    - name: Start firewalld
-     service: name=firewalld state=started enabled=yes sleep=10
+     service: name=firewalld state=started enabled=yes
 
    - name: Wait for firewalld
      pause: seconds=30
@@ -107,5 +107,5 @@
 
   handlers:
     - name: restart firewalld
-      service: name=firewalld state=restarted sleep=5
+      service: name=firewalld state=restarted
      
