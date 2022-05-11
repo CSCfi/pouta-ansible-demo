@@ -27,3 +27,7 @@ You will need to get some information from your pouta account in order to run th
 To launch the demo:
 
     ansible-playbook demo.yml
+
+Finally testing it in a browser or curl
+
+    http://[floating_ip address]/
