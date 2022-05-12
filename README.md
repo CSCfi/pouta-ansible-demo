@@ -20,6 +20,16 @@ To use this demo you will need:
 - Your SSH public key uploaded to Pouta
    <https://pouta.csc.fi/dashboard/project/access_and_security/>
 
+## Example: running the demo using python virtual inside the project folder
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install ansible
+pip install python-openstackclient
+pip install shade
+```
+
 Configuration:
 
 You will need to get some information from your pouta account in order to run this demo. See the comments in demo.yml.
