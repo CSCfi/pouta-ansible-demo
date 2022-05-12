@@ -36,7 +36,7 @@ You will need to get some information from your pouta account in order to run th
 
 To launch the demo:
 
-    ansible-playbook demo.yml
+    ansible-playbook demo.yml --extra-vars "demo_key=ansible_vm_key  demo_sg=demo-sg-ansible net_name=project_2001316 vm_name=pouta-demo path_to_key='/home/<host-username>/.ssh/your_publi_key.pub'"
 
 Finally testing it in a browser or curl
 

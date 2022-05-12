@@ -9,14 +9,8 @@
   connection: local
 
   vars:
-    # These will need changing based on your project
-    demo_key: ansible-vm-key
-    demo_sg: demo-sg-ansible
+    # These will need changing based on your project and pass them through environment variables
     demo_security_groups: default,{{ demo_sg }} # don't add spaces here!
-    net_id: c55bc796-841f-4704-a1a2-8f29bb9a699a
-    net_name: project_2001316
-    path_to_key: "/home/jtahir/.ssh/id_rsa.pub" # path to local pc public key 
-
   tasks:
     - name: Create security group
       os_security_group: name={{ demo_sg }}
@@ -47,7 +41,7 @@
       register: result
       os_server:
         state: present
-        name: pouta-demo
+        name: "{{ vm_name }}"
         image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
@@ -61,7 +55,7 @@
       register: result
       os_server:
         state: present
-        name: pouta-demo
+        name: "{{ vm_name }}"
         image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
