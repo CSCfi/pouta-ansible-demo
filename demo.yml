@@ -9,11 +9,8 @@
   connection: local
 
   vars:
-    # These will need changing based on your project
-    demo_key: jenkins
-    demo_sg: demo-sg-jenkins
+    # These will need changing based on your project and pass them through environment variables
     demo_security_groups: default,{{ demo_sg }} # don't add spaces here!
-
   tasks:
     - name: Create security group
       os_security_group: name={{ demo_sg }}
@@ -33,30 +30,46 @@
         port_range_min: 22
         port_range_max: 22
         remote_ip_prefix: "{{ ansible_default_ipv4.address }}/32"
+    
+    - name: Creates a key pair with the running users public key
+      os_keypair:
+          state: present
+          name: "{{ demo_key }}"
+          public_key_file: "{{ path_to_key }}"
 
     - name: Create a virtual machine
       register: result
       os_server:
-        name: pouta-demo
+        state: present
+        name: "{{ vm_name }}"
         image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
+        auto_floating_ip: yes
+        network: "{{ net_name }}" 
+        timeout: 200
+
 
     - name: Create a virtual machine
       register: result
       os_server:
-        name: pouta-demo
+        state: present
+        name: "{{ vm_name }}"
         image: CentOS-7
         flavor: standard.tiny
         key_name: "{{ demo_key }}"
         security_groups: "{{ demo_security_groups }}"
-      until: (result.openstack is defined) and (result.openstack.networks.values()[0] | length > 1)
+        auto_floating_ip: yes
+        network: "{{ net_name }}" 
+        timeout: 200
+
+      until: (result.openstack is defined) and (result.openstack.addresses.project_2001316[1] | length > 1)
       delay: 20
       retries: 50 
 
     - name: Store the auto-allocated floating IP address
-      set_fact: floating_ip={{ result.openstack.networks.values()[0][1] }}
+      set_fact: floating_ip={{ result.openstack.addresses.project_2001316[1].addr }}
     - name: Add new host to inventory
       add_host: name={{ floating_ip }} groups=new
     - name: clear ssh known_hosts
